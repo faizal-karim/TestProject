@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import TestProject
 
 class ViewController: UIViewController {
 
+    @IBOutlet var image: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        image.circleImageView(borderColor: .blue, borderWidth: 2)
     }
 
     override func didReceiveMemoryWarning() {
