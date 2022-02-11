@@ -26,16 +26,23 @@
                                     <constraint firstAttribute="height" constant="100" id="Hfp-L5-zfl"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nQD-5b-mmZ">
+                                <rect key="frame" x="107" y="430" width="161" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Start KYC Verfication"/>
+                                <connections>
+                                    <action selector="kycProcess:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="GVO-jE-DVv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ggL-XO-gXY" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="1yS-aX-jeR"/>
+                            <constraint firstItem="nQD-5b-mmZ" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="b7v-hq-Izc"/>
                             <constraint firstItem="ggL-XO-gXY" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="sRj-rH-eg1"/>
+                            <constraint firstItem="nQD-5b-mmZ" firstAttribute="top" secondItem="ggL-XO-gXY" secondAttribute="bottom" constant="46.5" id="tm7-sI-MCj"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="image" destination="ggL-XO-gXY" id="qrC-iB-jmO"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>

@@ -11,12 +11,9 @@ import TestProject
 
 class ViewController: UIViewController {
 
-    @IBOutlet var image: UIImageView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        image.circleImageView(borderColor: .blue, borderWidth: 2)
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,5 +21,11 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func kycProcess(_ sender: Any) {
+        let kycVC = IntroductionViewController()
+        let nav = UINavigationController(rootViewController: kycVC)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
+    }
 }
 

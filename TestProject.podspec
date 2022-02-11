@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'TestProject'
   s.version          = '0.1.0'
-  s.summary          = 'This is an extension for UIImage view to be used in your project'
+  s.summary          = 'UIImage View extension to '
   s.swift_version = '4.0'
 
 # This description is used to generate tags and improve search results.
@@ -31,7 +31,7 @@ DESC
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'TestProject/Classes/**/*'
+  s.source_files = 'TestProject/Classes/**/*.swift'
   
   # s.resource_bundles = {
   #   'TestProject' => ['TestProject/Assets/*.png']

@@ -1,8 +1,9 @@
 {
   "name": "TestProject",
   "version": "0.1.0",
-  "summary": "A short description of TestProject.",
-  "description": "TODO: Add long description of the pod here.",
+  "summary": "UIImage View extension to",
+  "swift_versions": "4.0",
+  "description": "This is an extension to be used for helping the images with round corner radius appearence",
   "homepage": "https://github.com/Faizal/TestProject",
   "license": {
     "type": "MIT",
@@ -18,5 +19,7 @@
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "TestProject/Classes/**/*"
+  "source_files": "TestProject/Classes/**/*.swift",
+  "frameworks": "UIKit",
+  "swift_version": "4.0"
 }
