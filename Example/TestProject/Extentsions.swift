@@ -10,6 +10,11 @@ import UIKit
 
 // MARK: UIView
 extension UIView {
+    func addToWindow()  {
+        let window = UIApplication.shared.keyWindow!
+        self.frame = window.bounds
+        window.addSubview(self)
+    }
     
     func addSubViews(views: [UIView]) {
         views.forEach{

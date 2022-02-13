@@ -19,6 +19,7 @@ class IntroductionViewController: BaseViewController {
         let view = IntroductionView(
             viewModel: prepareVM(),
             frame: UIScreen.main.bounds)
+        view.delegate = self
         self.view = view
     }
     
@@ -27,5 +28,12 @@ class IntroductionViewController: BaseViewController {
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.
 """)
+    }
+}
+
+extension IntroductionViewController: IntroductionViewDelegate {
+    func didPressContinue() {
+        let scanVC = ScanViewController(type: .signature)
+        self.navigationController?.pushViewController(scanVC, animated: true)
     }
 }

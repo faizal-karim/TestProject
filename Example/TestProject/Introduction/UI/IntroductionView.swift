@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol IntroductionViewDelegate: AnyObject {
+    func didPressContinue()
+}
+
 class IntroductionView: BaseView {
     // MARK: Helper Types
     
@@ -19,6 +23,7 @@ class IntroductionView: BaseView {
     
     // MARK: Properties
     let viewModel: IntroductionViewModel
+    weak var delegate: IntroductionViewDelegate?
     
     let titleLabel: UILabel = {
        let title = UILabel()
@@ -90,6 +95,6 @@ class IntroductionView: BaseView {
     
     // MARK: Button Action
     @objc func nextAction() {
-        
+        self.delegate?.didPressContinue()
     }
 }
