@@ -17,6 +17,7 @@
 		1816BCCD27B6DBD800F5AF9B /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1816BCCC27B6DBD800F5AF9B /* ScanViewController.swift */; };
 		1816BCCF27B6DD1900F5AF9B /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1816BCCE27B6DD1900F5AF9B /* ScanView.swift */; };
 		1816BCD327B6DD3500F5AF9B /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1816BCD227B6DD3500F5AF9B /* ScanViewModel.swift */; };
+		1816BCDD27B9FD5B00F5AF9B /* ScanView+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1816BCDC27B9FD5B00F5AF9B /* ScanView+View.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 		1816BCCC27B6DBD800F5AF9B /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		1816BCCE27B6DD1900F5AF9B /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 		1816BCD227B6DD3500F5AF9B /* ScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
+		1816BCDC27B9FD5B00F5AF9B /* ScanView+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScanView+View.swift"; sourceTree = "<group>"; };
 		1A46163FCA7A69386701D10B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		32F554A526C76E4D3EDE5261 /* Pods-TestProject_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestProject_Example.debug.xcconfig"; path = "Target Support Files/Pods-TestProject_Example/Pods-TestProject_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		44077B6210C7427BBE94943A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			children = (
 				1816BCCC27B6DBD800F5AF9B /* ScanViewController.swift */,
 				1816BCCE27B6DD1900F5AF9B /* ScanView.swift */,
+				1816BCDC27B9FD5B00F5AF9B /* ScanView+View.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				1816BCBE27B6C23000F5AF9B /* IntroductionViewController.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				1816BCDD27B9FD5B00F5AF9B /* ScanView+View.swift in Sources */,
 				1816BCC727B6C41F00F5AF9B /* IntroductionViewModel.swift in Sources */,
 				1816BCCF27B6DD1900F5AF9B /* ScanView.swift in Sources */,
 				1816BCC127B6C24B00F5AF9B /* IntroductionView.swift in Sources */,

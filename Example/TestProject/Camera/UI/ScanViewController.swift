@@ -35,7 +35,7 @@ class ScanViewController: BaseViewController {
 }
 
 extension ScanViewController: ScanViewDelegate {
-    func proceedNextScreen() {
+    func saveAndContinue() {
         let scanVC = ScanViewController(type: .selfie)
         self.navigationController?.pushViewController(scanVC, animated: true)
     }

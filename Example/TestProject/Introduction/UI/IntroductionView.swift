@@ -83,7 +83,7 @@ class IntroductionView: BaseView {
             continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             continueButton.heightAnchor.constraint(equalToConstant: 56),
-            continueButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            continueButton.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -40)
         ])
     }
     

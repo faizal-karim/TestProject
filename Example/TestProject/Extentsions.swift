@@ -10,6 +10,11 @@ import UIKit
 
 // MARK: UIView
 extension UIView {
+    func setCornerRadius(_ value: CGFloat) {
+        layer.cornerRadius = value
+        layer.masksToBounds = value > 0
+    }
+    
     func addToWindow()  {
         let window = UIApplication.shared.keyWindow!
         self.frame = window.bounds
@@ -22,9 +27,46 @@ extension UIView {
             addSubview($0)
         }
     }
+    
+    var safeTopAnchor: NSLayoutYAxisAnchor {
+            if #available(iOS 11.0, *) {
+                return safeAreaLayoutGuide.topAnchor
+            }
+            return topAnchor
+        }
+
+        var safeBottomAnchor: NSLayoutYAxisAnchor {
+            if #available(iOS 11.0, *) {
+                return safeAreaLayoutGuide.bottomAnchor
+            }
+            return bottomAnchor
+        }
+
+        var safeLeadingAnchor: NSLayoutXAxisAnchor {
+            if #available(iOS 11.0, *) {
+                return safeAreaLayoutGuide.leadingAnchor
+            }
+            return leadingAnchor
+        }
+
+        var safeTrailingAnchor: NSLayoutXAxisAnchor {
+            if #available(iOS 11.0, *) {
+                return safeAreaLayoutGuide.trailingAnchor
+            }
+            return trailingAnchor
+        }
+
 }
 
-//MARK: UIColor
+// MARK: UIStackView
+
+extension UIStackView {
+    func addAddrrangedSubViews(views: [UIView]) {
+        views.forEach{ addArrangedSubview($0)}
+    }
+}
+
+    //MARK: UIColor
 
 extension UIColor {
     convenience init(hexString: String) {

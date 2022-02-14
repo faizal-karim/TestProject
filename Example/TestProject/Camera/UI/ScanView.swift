@@ -9,7 +9,7 @@
 import UIKit
 import AVKit
 protocol ScanViewDelegate: AnyObject {
-    func proceedNextScreen()
+    func saveAndContinue()
 }
 
 class ScanView: BaseView {
@@ -33,6 +33,9 @@ class ScanView: BaseView {
     var currentFrame: CIImage!
     var done = false
     
+    enum ButtonType {
+        case capture, retake, save
+    }
     
     let titleLabel: UILabel = {
         let title = UILabel()
@@ -50,34 +53,38 @@ class ScanView: BaseView {
         title.numberOfLines = 3
         return title
     }()
-    
-    let cameraView: UIView = {
-        let cameraView = UIView()
-        cameraView.frame = UIScreen.main.bounds
-        return cameraView
+        
+    let hStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.distribution = .fillEqually
+        stack.spacing = 70
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
-    let mainView: UIView = {
-        let cameraView = UIView()
-        cameraView.frame = UIScreen.main.bounds
-        return cameraView
-    }()
-    
-    let gradientView: UIView = {
-        let cameraView = UIView()
-        cameraView.frame = UIScreen.main.bounds
-        return cameraView
-    }()
-    
-    let continueButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = UIColor(hexString: "61AF2B")
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        button.setTitle("Save", for: .normal)
-        button.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
+    let captureButton: UIButton = {
+        let button = prepareCameraButton(type: .capture)
+        button.addTarget(self, action: #selector(captureAction), for: .touchUpInside)
         return button
     }()
+    
+    let retakeButton: UIButton = {
+        let button = prepareCameraButton(type: .retake)
+        button.addTarget(self, action: #selector(retakeAction), for: .touchUpInside)
+        return button
+    }()
+    
+    let saveButton: UIButton = {
+        let button = prepareCameraButton(type: .save)
+        button.addTarget(self, action: #selector(saveAction), for: .touchUpInside)
+        return button
+    }()
+    
+    let cameraView = prepareView()
+    let mainView = prepareView()
+    let gradientView = prepareView()
     
     // MARK: Init Methods
     init(viewModel: ScanViewModel, frame: CGRect) {
@@ -87,9 +94,10 @@ class ScanView: BaseView {
     }
     
     override func constructSubviewHierarchy() {
+        hStackView.addAddrrangedSubViews(views: [captureButton])
         gradientView.addSubViews(views: [titleLabel, subTitleLabel])
         mainView.addSubViews(views: [cameraView, gradientView])
-        addSubViews(views: [mainView, continueButton])
+        addSubViews(views: [mainView, hStackView])
     }
     
     override func constructSubviewConstraints() {
@@ -103,25 +111,31 @@ class ScanView: BaseView {
             subTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             subTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             subTitleLabel.heightAnchor.constraint(equalToConstant: 60),
+            
+            mainView.topAnchor.constraint(equalTo: safeTopAnchor),
+            mainView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mainView.bottomAnchor.constraint(equalTo: safeBottomAnchor),
 
             
-            cameraView.topAnchor.constraint(equalTo: topAnchor),
-            cameraView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            cameraView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            cameraView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -100),
+            cameraView.topAnchor.constraint(equalTo: mainView.topAnchor),
+            cameraView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor),
+            cameraView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor),
+            cameraView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor),
+
 
             gradientView.topAnchor.constraint(equalTo: cameraView.topAnchor),
             gradientView.leadingAnchor.constraint(equalTo: cameraView.leadingAnchor),
             gradientView.trailingAnchor.constraint(equalTo: cameraView.trailingAnchor),
             gradientView.heightAnchor.constraint(equalTo: mainView.heightAnchor, multiplier: 0.3),
 
-            continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            continueButton.heightAnchor.constraint(equalToConstant: 56),
-            continueButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16)
-
+            
+            hStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            hStackView.heightAnchor.constraint(equalToConstant: 70),
+            hStackView.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -40)
         ])
     }
+    
     
     override func configureView() {
         setupAVCapture()
@@ -137,8 +151,16 @@ class ScanView: BaseView {
     }
     
     // MARK: Button Action
-    @objc func nextAction() {
-        self.delegate?.proceedNextScreen()
+    @objc func saveAction() {
+        self.delegate?.saveAndContinue()
+    }
+    
+    @objc func captureAction() {
+        session.stopRunning()
+    }
+    
+    @objc func retakeAction() {
+    setupAVCapture()
     }
 }
 
@@ -180,7 +202,7 @@ extension ScanView:  AVCaptureVideoDataOutputSampleBufferDelegate{
             videoDataOutput.connection(with: AVMediaType.video)?.isEnabled = true
             
             self.previewLayer = AVCaptureVideoPreviewLayer(session: self.session)
-            self.previewLayer.videoGravity = AVLayerVideoGravity.resizeAspect
+            self.previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
             
             let rootLayer: CALayer = self.cameraView.layer
             rootLayer.masksToBounds = true

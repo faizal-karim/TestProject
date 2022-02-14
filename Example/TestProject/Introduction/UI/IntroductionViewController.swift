@@ -34,6 +34,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 extension IntroductionViewController: IntroductionViewDelegate {
     func didPressContinue() {
         let scanVC = ScanViewController(type: .signature)
+        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.pushViewController(scanVC, animated: true)
     }
 }
