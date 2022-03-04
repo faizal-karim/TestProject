@@ -13,6 +13,7 @@ extension ScanView {
     static func prepareCameraButton(type: ButtonType) -> UIButton{
         let size = 70.0
         let baseButton = UIButton(frame: CGRect(x: 0, y: 0, width: size, height: size))
+        baseButton.translatesAutoresizingMaskIntoConstraints = false
         baseButton.setCornerRadius(size / 2)
         switch type {
         case .capture:

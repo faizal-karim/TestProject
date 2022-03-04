@@ -58,8 +58,8 @@ class ScanView: BaseView {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.alignment = .fill
-        stack.distribution = .fillEqually
-        stack.spacing = 70
+        stack.distribution = .fillProportionally
+        stack.spacing = 40
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -94,7 +94,7 @@ class ScanView: BaseView {
     }
     
     override func constructSubviewHierarchy() {
-        hStackView.addAddrrangedSubViews(views: [captureButton])
+        hStackView.addAddrrangedSubViews(views: [captureButton, retakeButton, saveButton])
         gradientView.addSubViews(views: [titleLabel, subTitleLabel])
         mainView.addSubViews(views: [cameraView, gradientView])
         addSubViews(views: [mainView, hStackView])
@@ -127,12 +127,21 @@ class ScanView: BaseView {
             gradientView.topAnchor.constraint(equalTo: cameraView.topAnchor),
             gradientView.leadingAnchor.constraint(equalTo: cameraView.leadingAnchor),
             gradientView.trailingAnchor.constraint(equalTo: cameraView.trailingAnchor),
-            gradientView.heightAnchor.constraint(equalTo: mainView.heightAnchor, multiplier: 0.3),
-
+            gradientView.heightAnchor.constraint(equalTo: mainView.heightAnchor, multiplier: 0.2),
             
             hStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             hStackView.heightAnchor.constraint(equalToConstant: 70),
-            hStackView.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -40)
+            hStackView.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -40),
+                        
+            captureButton.heightAnchor.constraint(equalToConstant: 70),
+            retakeButton.heightAnchor.constraint(equalToConstant: 70),
+            saveButton.heightAnchor.constraint(equalToConstant: 70),
+
+            captureButton.widthAnchor.constraint(equalToConstant: 70),
+            retakeButton.widthAnchor.constraint(equalToConstant: 70),
+            saveButton.widthAnchor.constraint(equalToConstant: 70)
+
+            
         ])
     }
     
@@ -140,6 +149,7 @@ class ScanView: BaseView {
     override func configureView() {
         setupAVCapture()
         addGradient()
+        configureButtons(isCaptured: false)
         titleLabel.text = viewModel.title
         subTitleLabel.text = viewModel.subTitle
     }
@@ -150,6 +160,12 @@ class ScanView: BaseView {
         }
     }
     
+    func configureButtons(isCaptured: Bool) {
+        self.captureButton.isHidden = isCaptured
+        self.saveButton.isHidden = !isCaptured
+        self.retakeButton.isHidden = !isCaptured
+    }
+    
     // MARK: Button Action
     @objc func saveAction() {
         self.delegate?.saveAndContinue()
@@ -157,9 +173,11 @@ class ScanView: BaseView {
     
     @objc func captureAction() {
         session.stopRunning()
+        configureButtons(isCaptured: true)
     }
     
     @objc func retakeAction() {
+        configureButtons(isCaptured: false)
     setupAVCapture()
     }
 }
@@ -247,7 +265,7 @@ extension ScanView {
     func addGradient() {
         let layer0 = CAGradientLayer()
         layer0.colors = [
-          UIColor(red: 0.104, green: 0.104, blue: 0.104, alpha: 1).cgColor,
+            UIColor.black.withAlphaComponent(0.85).cgColor,
           UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor
         ]
         layer0.locations = [0, 1]
