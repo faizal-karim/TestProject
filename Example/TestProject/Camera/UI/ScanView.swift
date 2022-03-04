@@ -8,8 +8,11 @@
 
 import UIKit
 import AVKit
+
 protocol ScanViewDelegate: AnyObject {
-    func saveAndContinue()
+    func saveAndContinue(toNext type: ScanType)
+    func moveToNextScreen()
+
 }
 
 class ScanView: BaseView {
@@ -168,7 +171,11 @@ class ScanView: BaseView {
     
     // MARK: Button Action
     @objc func saveAction() {
-        self.delegate?.saveAndContinue()
+        guard let type = ScanType(rawValue: viewModel.scanType.rawValue + 1) else {
+            self.delegate?.moveToNextScreen()
+            return
+        }
+        self.delegate?.saveAndContinue(toNext: type)
     }
     
     @objc func captureAction() {

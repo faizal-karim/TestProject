@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 // MARK: UIView
 extension UIView {
@@ -87,3 +88,38 @@ extension UIColor {
         self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
 }
+
+//MARK: UICollectionView
+
+public extension UICollectionView {
+    func register<T: UICollectionViewCell>(cellType: T.Type, bundle: Bundle? = nil) {
+        let className = cellType.className
+        let nib = UINib(nibName: className, bundle: bundle)
+        register(nib, forCellWithReuseIdentifier: className)
+    }
+
+    func register<T: UICollectionViewCell>(cellTypes: [T.Type], bundle: Bundle? = nil) {
+        cellTypes.forEach { register(cellType: $0, bundle: bundle) }
+    }
+
+    func dequeueReusableCell<T: UICollectionViewCell>(with type: T.Type,
+                                                      for indexPath: IndexPath) -> T {
+        return dequeueReusableCell(withReuseIdentifier: type.className, for: indexPath) as! T
+    }
+}
+
+public protocol ClassNameProtocol {
+    static var className: String { get }
+    var className: String { get }
+}
+
+public extension ClassNameProtocol {
+    static var className: String {
+        return String(describing: self)
+    }
+
+    var className: String {
+        return type(of: self).className
+    }
+}
+extension NSObject: ClassNameProtocol {}

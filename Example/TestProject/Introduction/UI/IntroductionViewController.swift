@@ -22,6 +22,11 @@ class IntroductionViewController: BaseViewController {
         view.delegate = self
         self.view = view
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.tintColor = .black
+    }
     
     func prepareVM() -> IntroductionViewModel{
         IntroductionViewModel(title: "How to use", body: """
@@ -33,8 +38,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 extension IntroductionViewController: IntroductionViewDelegate {
     func didPressContinue() {
-        let scanVC = ScanViewController(type: .signature)
-        self.navigationController?.navigationBar.isHidden = true
+        let scanVC = ScanViewController(type: .selfie)
         self.navigationController?.pushViewController(scanVC, animated: true)
     }
 }
