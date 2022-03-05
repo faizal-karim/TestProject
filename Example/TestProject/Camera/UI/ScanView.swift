@@ -9,9 +9,11 @@
 import UIKit
 import AVKit
 
+typealias Scene = ScanView.Navigation
+
 protocol ScanViewDelegate: AnyObject {
     func saveAndContinue(toNext type: ScanType)
-    func moveToNextScreen()
+    func moveToNextScreen(scene: Scene)
 
 }
 
@@ -35,7 +37,10 @@ class ScanView: BaseView {
     let session = AVCaptureSession()
     var currentFrame: CIImage!
     var done = false
-    
+    enum Navigation {
+        case documentList, profile
+    }
+
     enum ButtonType {
         case capture, retake, save
     }
@@ -67,6 +72,47 @@ class ScanView: BaseView {
         return stack
     }()
     
+    let captchaLabel: UILabel = {
+       let label = UILabel()
+        label.font = UIFont(name: "Zapfino-Regular", size: 20)
+        label.text = "MMw124"
+        label.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        label.textAlignment = .center
+        label.setCornerRadius(5)
+        return label
+    }()
+    
+    let captchaHeaderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Type the characters above"
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = UIColor.init(hexString: "929292")
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let captchaTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.systemFont(ofSize: 14)
+        return textField
+    }()
+    
+    let captchaView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        view.setCornerRadius(5)
+        return view
+    }()
+    
+    let captchaContinueButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor.init(hexString: "61AF2B")
+        button.setCornerRadius(8)
+        button.setImage(UIImage(named: "arrow"), for: .normal)
+        button.addTarget(self, action: #selector(captchaContinueAction), for: .touchUpInside)
+        return button
+    }()
+    
     let captureButton: UIButton = {
         let button = prepareCameraButton(type: .capture)
         button.addTarget(self, action: #selector(captureAction), for: .touchUpInside)
@@ -85,6 +131,14 @@ class ScanView: BaseView {
         return button
     }()
     
+    let livenessStackView: UIStackView = {
+       let stack = UIStackView()
+       stack.axis = .vertical
+        stack.distribution = .fill
+        stack.spacing = 15
+       return stack
+    }()
+
     let cameraView = prepareView()
     let mainView = prepareView()
     let gradientView = prepareView()
@@ -97,10 +151,12 @@ class ScanView: BaseView {
     }
     
     override func constructSubviewHierarchy() {
+        captchaView.addSubViews(views: [captchaHeaderLabel, captchaTextField, captchaContinueButton])
+        livenessStackView.addAddrrangedSubViews(views: [captchaLabel, captchaView])
         hStackView.addAddrrangedSubViews(views: [captureButton, retakeButton, saveButton])
         gradientView.addSubViews(views: [titleLabel, subTitleLabel])
         mainView.addSubViews(views: [cameraView, gradientView])
-        addSubViews(views: [mainView, hStackView])
+        addSubViews(views: [mainView, hStackView, livenessStackView])
     }
     
     override func constructSubviewConstraints() {
@@ -132,10 +188,36 @@ class ScanView: BaseView {
             gradientView.trailingAnchor.constraint(equalTo: cameraView.trailingAnchor),
             gradientView.heightAnchor.constraint(equalTo: mainView.heightAnchor, multiplier: 0.2),
             
+            livenessStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            livenessStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            livenessStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
+            livenessStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
+
+            
             hStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             hStackView.heightAnchor.constraint(equalToConstant: 70),
             hStackView.bottomAnchor.constraint(equalTo: safeBottomAnchor, constant: -40),
-                        
+                    
+            captchaLabel.heightAnchor.constraint(equalToConstant: 50),
+            captchaView.heightAnchor.constraint(equalToConstant: 65),
+
+            captchaHeaderLabel.topAnchor.constraint(equalTo: captchaView.topAnchor, constant: 3),
+            captchaHeaderLabel.leadingAnchor.constraint(equalTo: captchaView.leadingAnchor, constant: 5),
+            
+            captchaContinueButton.trailingAnchor.constraint(equalTo: captchaView.trailingAnchor, constant: -5),
+            captchaContinueButton.centerYAnchor.constraint(equalTo: captchaView.centerYAnchor),
+            captchaContinueButton.heightAnchor.constraint(equalToConstant: 43),
+            captchaContinueButton.widthAnchor.constraint(equalToConstant: 43),
+
+            
+            captchaTextField.topAnchor.constraint(equalTo: captchaHeaderLabel.bottomAnchor, constant: 10),
+            captchaTextField.leadingAnchor.constraint(equalTo: captchaView.leadingAnchor, constant: 5),
+            captchaTextField.bottomAnchor.constraint(equalTo: captchaView.bottomAnchor, constant: -10),
+
+            captchaTextField.trailingAnchor.constraint(equalTo: captchaContinueButton.leadingAnchor, constant: -10),
+
+            
+            
             captureButton.heightAnchor.constraint(equalToConstant: 70),
             retakeButton.heightAnchor.constraint(equalToConstant: 70),
             saveButton.heightAnchor.constraint(equalToConstant: 70),
@@ -152,6 +234,8 @@ class ScanView: BaseView {
     override func configureView() {
         setupAVCapture()
         addGradient()
+        livenessStackView.isHidden = viewModel.scanType != .liveness
+        hStackView.isHidden = viewModel.scanType == .liveness
         configureButtons(isCaptured: false)
         titleLabel.text = viewModel.title
         subTitleLabel.text = viewModel.subTitle
@@ -164,6 +248,13 @@ class ScanView: BaseView {
     }
     
     func configureButtons(isCaptured: Bool) {
+        guard viewModel.scanType != .liveness else {
+            self.captureButton.isHidden = true
+            self.saveButton.isHidden = true
+            self.retakeButton.isHidden = true
+            return
+        }
+        
         self.captureButton.isHidden = isCaptured
         self.saveButton.isHidden = !isCaptured
         self.retakeButton.isHidden = !isCaptured
@@ -171,8 +262,8 @@ class ScanView: BaseView {
     
     // MARK: Button Action
     @objc func saveAction() {
-        guard let type = ScanType(rawValue: viewModel.scanType.rawValue + 1) else {
-            self.delegate?.moveToNextScreen()
+        guard let type = ScanType(rawValue: viewModel.scanType.rawValue + 1), type != .liveness else {
+            self.delegate?.moveToNextScreen(scene: .documentList)
             return
         }
         self.delegate?.saveAndContinue(toNext: type)
@@ -187,6 +278,10 @@ class ScanView: BaseView {
         configureButtons(isCaptured: false)
     setupAVCapture()
     }
+    
+    @objc func captchaContinueAction() {
+        self.delegate?.moveToNextScreen(scene: .profile)
+    }
 }
 
 
@@ -194,7 +289,8 @@ class ScanView: BaseView {
 extension ScanView:  AVCaptureVideoDataOutputSampleBufferDelegate{
     func setupAVCapture(){
         session.sessionPreset = AVCaptureSession.Preset.vga640x480
-        guard let device = getDevice(position: viewModel.scanType == .selfie ? .front : .back) else{
+        let isFrontCamera = viewModel.scanType == .selfie  || viewModel.scanType == .liveness
+        guard let device = getDevice(position: isFrontCamera ? .front : .back) else{
                     return
                 }
         captureDevice = device

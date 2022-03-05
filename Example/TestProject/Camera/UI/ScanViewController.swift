@@ -40,8 +40,16 @@ extension ScanViewController: ScanViewDelegate {
         self.navigationController?.pushViewController(scanVC, animated: true)
     }
     
-    func moveToNextScreen() {
-        let vc = DocumentsListViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+    func moveToNextScreen(scene: Scene) {
+        switch scene {
+        case .documentList:
+            let vc = DocumentsListViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        case .profile:
+            let vc = ProfileViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        }
     }
 }

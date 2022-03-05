@@ -46,7 +46,7 @@ extension DocumentsListViewController: DocumentsListViewDelegate {
     }
     
     func didPressContinue() {
-        let vc = ProfileViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        let scanVC = ScanViewController(type: .liveness)
+        self.navigationController?.pushViewController(scanVC, animated: true)
     }
 }

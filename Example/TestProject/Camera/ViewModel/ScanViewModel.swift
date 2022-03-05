@@ -17,7 +17,7 @@ struct ScanViewModel {
     let scanType: ScanType
     
     enum CaptureType: Int {
-        case selfie, signature, document
+        case selfie, signature, document, liveness
     }
     
     init(type: ScanType) {
@@ -38,6 +38,8 @@ struct ScanViewModel {
             return ScanViewModel(title: "Scan your Signature", subTitle: "Capture your photo.  Lorem Ipsum has been the industry's.", scanType: scanType)
         case .document:
             return ScanViewModel(title: "Scan your Identity Documents", subTitle: "Capture your photo.  Lorem Ipsum has been the industry's.", scanType: scanType)
+        case .liveness:
+            return ScanViewModel(title: "Liveness Detection", subTitle: "Type 4 digit number that will send your.", scanType: scanType)
 
         }
     }
