@@ -23,6 +23,9 @@
 		18957AE727D2483E00111D07 /* DocumentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18957AE627D2483E00111D07 /* DocumentsListView.swift */; };
 		18957AEA27D28CBB00111D07 /* KYCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18957AE927D28CBB00111D07 /* KYCModel.swift */; };
 		18957AED27D28F8500111D07 /* DocumentListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18957AEC27D28F8500111D07 /* DocumentListCell.swift */; };
+		18957AF227D3214400111D07 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18957AF127D3214400111D07 /* ProfileViewController.swift */; };
+		18957AF527D3215500111D07 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18957AF427D3215500111D07 /* ProfileView.swift */; };
+		18957AF727D3216400111D07 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18957AF627D3216400111D07 /* ProfileViewModel.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -49,6 +52,9 @@
 		18957AE627D2483E00111D07 /* DocumentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsListView.swift; sourceTree = "<group>"; };
 		18957AE927D28CBB00111D07 /* KYCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCModel.swift; sourceTree = "<group>"; };
 		18957AEC27D28F8500111D07 /* DocumentListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentListCell.swift; sourceTree = "<group>"; };
+		18957AF127D3214400111D07 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		18957AF427D3215500111D07 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		18957AF627D3216400111D07 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		1A46163FCA7A69386701D10B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		32F554A526C76E4D3EDE5261 /* Pods-TestProject_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestProject_Example.debug.xcconfig"; path = "Target Support Files/Pods-TestProject_Example/Pods-TestProject_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		44077B6210C7427BBE94943A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -103,6 +109,7 @@
 		1816BCBC27B6C1E700F5AF9B /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				18957AEE27D320E600111D07 /* Profile */,
 				18957ADF27D247F200111D07 /* DocumentsList */,
 				1816BCCB27B6DBB300F5AF9B /* Camera */,
 				1816BCBF27B6C23400F5AF9B /* Introduction */,
@@ -175,28 +182,28 @@
 		18957ADF27D247F200111D07 /* DocumentsList */ = {
 			isa = PBXGroup;
 			children = (
-				18957AE127D2480700111D07 /* UI */,
-				18957AE027D247FD00111D07 /* ViewModel */,
+				18957AE127D2480700111D07 /* ViewModel */,
+				18957AE027D247FD00111D07 /* UI */,
 			);
 			path = DocumentsList;
 			sourceTree = "<group>";
 		};
-		18957AE027D247FD00111D07 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				18957AE427D2483000111D07 /* DocumentsListViewController.swift */,
-				18957AE627D2483E00111D07 /* DocumentsListView.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		18957AE127D2480700111D07 /* UI */ = {
+		18957AE027D247FD00111D07 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				18957AEB27D28F5700111D07 /* Cells */,
-				18957AE227D2481D00111D07 /* DocumentsListViewModel.swift */,
+				18957AE427D2483000111D07 /* DocumentsListViewController.swift */,
+				18957AE627D2483E00111D07 /* DocumentsListView.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		18957AE127D2480700111D07 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				18957AE227D2481D00111D07 /* DocumentsListViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		18957AE827D28CAA00111D07 /* Model */ = {
@@ -213,6 +220,32 @@
 				18957AEC27D28F8500111D07 /* DocumentListCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		18957AEE27D320E600111D07 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				18957AF027D3210600111D07 /* ViewModel */,
+				18957AEF27D3210100111D07 /* UI */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		18957AEF27D3210100111D07 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				18957AF127D3214400111D07 /* ProfileViewController.swift */,
+				18957AF427D3215500111D07 /* ProfileView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		18957AF027D3210600111D07 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				18957AF627D3216400111D07 /* ProfileViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		4F77BB9C3F9F97D60E4A9A27 /* Frameworks */ = {
@@ -449,11 +482,14 @@
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				1816BCDD27B9FD5B00F5AF9B /* ScanView+View.swift in Sources */,
+				18957AF727D3216400111D07 /* ProfileViewModel.swift in Sources */,
 				1816BCC727B6C41F00F5AF9B /* IntroductionViewModel.swift in Sources */,
 				18957AEA27D28CBB00111D07 /* KYCModel.swift in Sources */,
 				1816BCCF27B6DD1900F5AF9B /* ScanView.swift in Sources */,
+				18957AF227D3214400111D07 /* ProfileViewController.swift in Sources */,
 				1816BCC127B6C24B00F5AF9B /* IntroductionView.swift in Sources */,
 				1816BCD327B6DD3500F5AF9B /* ScanViewModel.swift in Sources */,
+				18957AF527D3215500111D07 /* ProfileView.swift in Sources */,
 				1816BCC327B6C27400F5AF9B /* BaseViewController.swift in Sources */,
 				18957AE527D2483000111D07 /* DocumentsListViewController.swift in Sources */,
 				18957AE727D2483E00111D07 /* DocumentsListView.swift in Sources */,
